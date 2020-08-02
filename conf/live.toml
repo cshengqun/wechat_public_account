@@ -1,7 +1,0 @@
-[host]
-ip   = "127.0.0.1"
-port = 8080
-
-[account_info]
-token = "nicetomeetyou"
-aes_key = "41HaqntMmNEmLkLL73zRx4wQklP96M6MOSW3yyNGmB4"

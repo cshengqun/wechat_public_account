@@ -9,6 +9,7 @@ type config struct {
 
 type accountInfo struct {
 	Token string `toml:"token"`
+	AesKey string `toml:"aes_key"`
 }
 
 type host struct {

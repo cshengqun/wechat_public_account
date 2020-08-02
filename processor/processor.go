@@ -19,6 +19,7 @@ func ValidateWechatReq(c *gin.Context) {
 		})
 		return
 	}
+	fmt.Printf("rcv req:%+v", req)
 	valid, err := NewBasicProcessor().ValidateRequest(req)
 	if err != nil {
 		fmt.Printf("validate request error:%v\n", err)
@@ -30,6 +31,7 @@ func ValidateWechatReq(c *gin.Context) {
 	}
 	if valid {
 		c.String(http.StatusOK, req.Echostr)
+		return
 	}
 	c.JSON(http.StatusForbidden, &common.CommonRsp{
 		Code: constant.CodeInvalidReq,

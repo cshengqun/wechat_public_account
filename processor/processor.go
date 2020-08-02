@@ -12,7 +12,7 @@ func ValidateWechatReq(c *gin.Context) {
 	var req ValidateRequestReq
 	err := c.ShouldBind(&req)
 	if err != nil {
-		fmt.Printf("invalid parameter\n")
+		fmt.Printf("invalid parameter, err:%v\n", err)
 		c.JSON(http.StatusOK, &common.CommonRsp{
 			Code : constant.CodeInvalidReq,
 			Msg: "invalid req",
@@ -40,5 +40,23 @@ func ValidateWechatReq(c *gin.Context) {
 }
 
 func DealWithMsg(c *gin.Context) {
+	var req MsgReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		fmt.Printf("invalid parameter, err:%v\n", err)
+		c.JSON(http.StatusOK, &common.CommonRsp{
+			Code : constant.CodeInvalidReq,
+			Msg: "invalid req",
+		})
+		return
+	}
+
+	switch req.MsgType {
+	case constant.MsgTypeText:
+		NewMsgProcessor().DealWithTextMsg(c, req)
+	default:
+		fmt.Printf("unsupport msg type ignore")
+		c.String(http.StatusOK, "success")
+	}
 
 }

@@ -40,7 +40,7 @@ func ValidateWechatReq(c *gin.Context) {
 }
 
 func DealWithMsg(c *gin.Context) {
-	var req MsgReq
+	var req common.Req
 	err := c.ShouldBind(&req)
 	if err != nil {
 		fmt.Printf("invalid parameter, err:%v\n", err)
@@ -50,10 +50,15 @@ func DealWithMsg(c *gin.Context) {
 		})
 		return
 	}
-
+	fmt.Printf("rcv req:%+v\n", req)
 	switch req.MsgType {
 	case constant.MsgTypeText:
 		NewMsgProcessor().DealWithTextMsg(c, req)
+	case constant.MsgTypeEvent:
+		switch req.Event {
+		case constant.EventSubscribe:
+
+		}
 	default:
 		fmt.Printf("unsupport msg type ignore")
 		c.String(http.StatusOK, "success")

@@ -1,6 +1,7 @@
 package processor
 
 import (
+	"github.com/cshengqun/wechat_public_account/common"
 	"github.com/cshengqun/wechat_public_account/constant"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -8,7 +9,7 @@ import (
 )
 
 type MsgProcessor interface {
-	DealWithTextMsg(c *gin.Context, req MsgReq)
+	DealWithTextMsg(c *gin.Context, req common.Req)
 }
 
 type msgProcessor struct {
@@ -18,16 +19,7 @@ func NewMsgProcessor() MsgProcessor {
 	return &msgProcessor{}
 }
 
-type MsgReq struct {
-	ToUserName string `xml:"ToUserName"`
-	FromUserName string `xml:"FromUserName"`
-	CreateTime int64 `xml:"CreateTime"`
-	MsgType string `xml:"MsgType"`
-	Content string `xml:"Content"`
-	MsgId uint64 `xml:"MsgId"`
-}
-
-type TextMsgRsp struct {
+type xmll struct {
 	ToUserName string `xml:"ToUserName"`
 	FromUserName string `xml:"FromUserName"`
 	CreateTime int64 `xml:"CreateTime"`
@@ -35,8 +27,10 @@ type TextMsgRsp struct {
 	Content string `xml:"Content"`
 }
 
-func (p *msgProcessor) DealWithTextMsg(c *gin.Context, req MsgReq) {
-	c.XML(http.StatusOK, &TextMsgRsp{
+
+func (p *msgProcessor) DealWithTextMsg(c *gin.Context, req common.Req) {
+	type xml xmll
+	c.XML(http.StatusOK, &xml{
 		ToUserName:   req.FromUserName,
 		FromUserName: req.ToUserName,
 		CreateTime:   time.Now().Unix(),

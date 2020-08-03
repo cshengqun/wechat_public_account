@@ -7,4 +7,9 @@ const (
 
 const (
 	MsgTypeText = "text"
+	MsgTypeEvent = "event"
+)
+
+const (
+	EventSubscribe = "subscribe"
 )
